@@ -9,11 +9,11 @@ use SelfLibrary\Ddd\Repository\Utils\PersistInterface;
  * @author JiefzzLon
  *
  */
-abstract class EasyProperties implements PersistInterface
+abstract class EasyProperties implements PersistInterface, AggregateAwareInterface
 {
     private $raw = array();
     private $params;
-
+    private $topAggregate;
     
     /**
      * 构造函数
@@ -50,12 +50,26 @@ abstract class EasyProperties implements PersistInterface
     /**
      * @see \Order\Service\Utils\PersistInterface::getParamsCopy()
      */
-    public function getParamsCopy()
-    {
+    public function getParamsCopy(){
         $params = array();
         foreach($this->params as $v)
             $params[$v['name']] = ($v['value'] instanceof EasyProperties)?$v['value']->getParamsCopy():$v['value'];
         return $params;
+    }
+
+    /**
+     * @desc 建立与聚合根对象的弱关联
+     */
+    public function setAggregate(AggregateInterface $a){
+        $this->topAggregate = $a;
+    }
+    
+    /**
+     * @desc 获取顶级聚合根对象
+     * @return \SelfLibrary\Ddd\Aggregate\Utils\AggregateInterface
+     */
+    public function getAggregate(){
+        return $this->topAggregate;
     }
     
     /**
