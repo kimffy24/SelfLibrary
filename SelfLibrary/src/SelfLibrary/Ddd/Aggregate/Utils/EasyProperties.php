@@ -13,7 +13,7 @@ abstract class EasyProperties implements PersistInterface, AggregateAwareInterfa
 {
     private $raw = array();
     private $params;
-    private $topAggregate;
+    private $topAggregate = null;
     
     /**
      * 构造函数
@@ -61,6 +61,8 @@ abstract class EasyProperties implements PersistInterface, AggregateAwareInterfa
      * @desc 建立与聚合根对象的弱关联
      */
     public function setAggregate(AggregateInterface $a){
+        if($this->topAggregate) 
+            throw new AggregateBuildException();
         $this->topAggregate = $a;
     }
     
