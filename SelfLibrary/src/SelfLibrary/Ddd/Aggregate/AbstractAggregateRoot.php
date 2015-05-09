@@ -12,7 +12,7 @@ use SelfLibrary\Ddd\Aggregate\Utils\EasyProperties;
 use SelfLibrary\Ddd\Aggregate\Utils\AggregateInterface;
 use SelfLibrary\Ddd\Repository\Utils\PersistInterface;
 
-abstract class AbstractAggregateRoot extends EasyProperties implements AggregateInterface,PersistInterface{
+abstract class AbstractAggregateRoot implements AggregateInterface,PersistInterface{
 
     /**
      * @desc 获取聚合根对象标识
