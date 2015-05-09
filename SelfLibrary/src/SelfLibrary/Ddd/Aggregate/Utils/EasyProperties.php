@@ -42,6 +42,7 @@ abstract class EasyProperties implements PersistInterface, AggregateAwareInterfa
                 return $this->params[$target]['value'];
             case 'set':
                 $this->params[$target]['value']=$args[0];
+                return $this;
             default:
                 return;
         }
