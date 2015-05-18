@@ -34,11 +34,14 @@ class Smarty4psr0 extends Smarty
         $viewPath = dirname(__DIR__).DS.'..'.DS.'..'.DS.'view';
         $pluginPath = dirname(__DIR__).DS.'..'.DS.'..'.DS.'ext_lib'.DS.'smartyExtension';
 
-        $this->setTemplateDir($viewPath.DS.strtolower($controller).DS)
+        $this
             ->setCompileDir($workPath.DS.'templates_c'.DS)
             ->setConfigDir($workPath.DS.'configs'.DS)
             ->setCacheDir($workPath.DS.'cache'.DS)
-            ->addPluginsDir($pluginPath);
+            ->addPluginsDir($pluginPath)
+            //->setTemplateDir($viewPath.DS.strtolower($controller).DS)
+            	// @todo Please set template directory in your project
+        ;
 
         /****/
         //require_once($pluginPath.DS.'function.U.php');
