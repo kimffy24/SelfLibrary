@@ -35,7 +35,7 @@ abstract class EasyProperties implements PersistInterface, AggregateAwareInterfa
         $analyze = $this->analyzeOperation($method);
         $op = $analyze['op'];
         $target = $analyze['target'];
-        if(!key_exists($target, $this->params))
+        if(!isset($this->params[$target]))
             return;
         switch($op){
             case 'get':
