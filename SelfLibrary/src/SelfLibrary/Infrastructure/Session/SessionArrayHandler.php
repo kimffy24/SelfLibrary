@@ -8,8 +8,13 @@
 
 namespace SelfLibrary\Infrastructure\Session;
 
+use SelfLibrary\Infrastructure\Session\Storage\Utils\SessionStorageException;
 
 class SessionArrayHandler {
+    public function __construct(){
+        if (!isset($_SESSION))
+            throw new SessionStorageException("There no session storage can use now!");
+    }
     public function read($key){
         return (isset($_SESSION[$key]) && !empty($_SESSION[$key]))?
             $_SESSION[$key]:

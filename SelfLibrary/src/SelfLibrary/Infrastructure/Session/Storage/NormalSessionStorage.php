@@ -40,4 +40,12 @@ class NormalSessionStorage extends AbstractSessionStorage {
     public function gc(){
         return true;
     }
+
+    /**
+     * rewrite parent method
+     * 不做任何动作
+     */
+    public function initializeSessionControl(){
+        return ;
+    }
 }

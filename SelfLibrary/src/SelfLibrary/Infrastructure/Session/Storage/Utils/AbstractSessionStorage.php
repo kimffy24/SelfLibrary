@@ -10,7 +10,8 @@ namespace SelfLibrary\Infrastructure\Session\Storage\Utils;
 
 
 abstract class AbstractSessionStorage implements SessionStorageInterface {
-    public function __construct(){
+    public function initializeSessionControl(){
+
         session_set_save_handler(
             array(&$this,'open'),
             array(&$this,'close'),

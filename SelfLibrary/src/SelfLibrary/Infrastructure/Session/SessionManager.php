@@ -7,6 +7,7 @@
  */
 namespace SelfLibrary\Infrastructure\Session;
 
+use SelfLibrary\Infrastructure\Session\Storage\Utils\SessionStorageException;
 use Zend\ServiceManager\ServiceLocatorInterface;
 
 use SelfLibrary\Infrastructure\Session\Storage\Utils\AbstractSessionStorage;
@@ -14,23 +15,23 @@ use SelfLibrary\Infrastructure\Session\Storage\Utils\AbstractSessionStorage;
 class SessionManager {
     public function __construct(ServiceLocatorInterface $sl){
         $this->serviceLocator = $sl;
-        $this->sessionStatusCheck();
+        $this->isSessionCanStart();
         return;
     }
 
-    public function general(){
-        // @todo 获取配置文件，初始化Container；
+    public function setStorage(AbstractSessionStorage $container=null){
+        if($this->isHasSessionStorage())
+            throw new SessionStorageException("A session storage was set before this invoke!");
+        if(!$container)
+            $this->defaultStorage = new $this->defaultStorageClass;
+        else
+            $this->defaultStorage = $container;
 
-        $this->targetContainer = new $this->defaultStorageClass();
-    }
-
-    public function setStorage(AbstractSessionStorage $container){
+        $this->defaultStorage->initializeSessionControl();
         return $this;
     }
 
     public function getContainer(){
-        if(!$this->defaultStorage)
-            $this->general();
         if(!$this->targetContainer)
             $this->targetContainer = new SessionArrayHandler();
         return $this->targetContainer;
@@ -45,11 +46,19 @@ class SessionManager {
      * 规则： 检查session是否为可用切没开启的状态
      * @throws SessionStorageException
      */
-    private function sessionStatusCheck(){
+    private function isSessionCanStart(){
         if (session_status()==0)
             throw new SessionStorageException("Session can't use on this request!");
         else if (session_status()==2)
             throw new SessionStorageException("Session has initialize on this request!");
         return true;
     }
-} 
+
+    /**
+     * 规则： 检查是否设置过sessionStorage
+     * @return bool
+     */
+    private function isHasSessionStorage(){
+        return (!$this->defaultStorage)?false:true;
+    }
+}
