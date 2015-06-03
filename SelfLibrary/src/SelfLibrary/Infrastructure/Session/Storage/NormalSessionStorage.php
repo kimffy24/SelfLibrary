@@ -7,30 +7,37 @@
  */
 namespace SelfLibrary\Infrastructure\Session\Storage;
 
+use SelfLibrary\Infrastructure\Session\Storage\Utils\AbstractSessionStorage;
 use SelfLibrary\Infrastructure\Session\Storage\Utils\SessionStorageException;
 
-class NormalSessionStorage {
+class NormalSessionStorage extends AbstractSessionStorage {
     public function __construct(){
-        if(session_status()==0)
-            throw new SessionStorageException("Session can't use on system!");
-        if(session_status()==1)
-            session_start();
-        return;
+        session_start();
     }
 
-    public function get($key){
+    public function read($key){
         return (isset($_SESSION[$key]) && !empty($_SESSION[$key]))?
             $_SESSION[$key]:
             null;
     }
 
-    public function set($key, $value){
+    public function write($key, $value){
         $_SESSION[$key] = $value;
         return $this;
     }
 
-    public function reset($key){
+    public function destroy($key){
         unset($_SESSION[$key]);
         return $this;
+    }
+
+    public function open($path=null, $name=null){
+        return true;
+    }
+    public function close(){
+        return true;
+    }
+    public function gc(){
+        return true;
     }
 } 
