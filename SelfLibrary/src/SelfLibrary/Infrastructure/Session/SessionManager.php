@@ -12,6 +12,12 @@ use Zend\ServiceManager\ServiceLocatorInterface;
 class SessionManager {
     public function __construct(ServiceLocatorInterface $sl){
         $this->serviceLocator = $sl;
+
+        if (session_status()==0)
+            throw new SessionStorageException("Session can't use on this request!");
+        else if (session_status()==2)
+            throw new SessionStorageException("Session has initialize on this request!");
+        return;
     }
 
     public function general(){
@@ -26,7 +32,7 @@ class SessionManager {
     }
 
     private $serviceLocator;
-    private $defaultContainerClass = 'SelfLibrary\Infrastructure\Session\Storage\NormalSessionStorage';
+    private $defaultContainerClass = '\SelfLibrary\Infrastructure\Session\Storage\NormalSessionStorage';
     private $targetContainer;
 
 
