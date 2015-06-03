@@ -51,7 +51,6 @@ class MemcachedSessionStorage extends AbstractSessionStorage {
         return true;
     }
 
-
     private $memcachedHandler;
 
     /**

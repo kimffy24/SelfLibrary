@@ -16,19 +16,19 @@ class NormalSessionStorage extends AbstractSessionStorage {
     }
 
     public function read($key){
-        return (isset($_SESSION[$key]) && !empty($_SESSION[$key]))?
+        /*return (isset($_SESSION[$key]) && !empty($_SESSION[$key]))?
             $_SESSION[$key]:
-            null;
+            null;*/
     }
 
     public function write($key, $value){
-        $_SESSION[$key] = $value;
-        return $this;
+        /*$_SESSION[$key] = $value;
+        return $this;*/
     }
 
     public function destroy($key){
-        unset($_SESSION[$key]);
-        return $this;
+        /*unset($_SESSION[$key]);
+        return $this;*/
     }
 
     public function open($path=null, $name=null){
@@ -40,4 +40,4 @@ class NormalSessionStorage extends AbstractSessionStorage {
     public function gc(){
         return true;
     }
-} 
+}
