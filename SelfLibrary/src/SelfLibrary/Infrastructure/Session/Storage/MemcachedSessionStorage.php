@@ -8,14 +8,14 @@
 
 namespace SelfLibrary\Infrastructure\Session\Storage;
 
-use stdClass;
+use \Zend\Cache\Storage\StorageInterface;
 use SelfLibrary\Infrastructure\Session\Storage\Utils\AbstractSessionStorage;
 
 class MemcachedSessionStorage extends AbstractSessionStorage {
     const mcNamespace = 'session_';
     const liftTime = 3600;
 
-    function __construct(stdClass $memcachedHandler) {
+    function __construct(StorageInterface $memcachedHandler) {
         $this->memcachedHandler = $memcachedHandler;
         parent::__construct();
     }
@@ -36,7 +36,7 @@ class MemcachedSessionStorage extends AbstractSessionStorage {
     }
 
     function write($phpSessionId, $data) {
-        $method=$data ? 'setItem' : 'replaceItem';
+        $method=/*$data ? */'setItem'/*:'replaceItem'*/;
         return call_user_func_array(
             array($this->getMemcachedHandler(), $method),
             array(self::createSessionKey($phpSessionId), $data, MEMCACHE_COMPRESSED, self::liftTime)

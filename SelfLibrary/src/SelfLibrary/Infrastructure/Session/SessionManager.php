@@ -8,6 +8,9 @@
 namespace SelfLibrary\Infrastructure\Session;
 
 use Zend\ServiceManager\ServiceLocatorInterface;
+use Zend\Cache\Storage\Adapter\AbstractAdapter;
+
+use SelfLibrary\Infrastructure\Session\Storage\Utils\AbstractSessionStorage;
 
 class SessionManager {
     public function __construct(ServiceLocatorInterface $sl){
@@ -23,6 +26,12 @@ class SessionManager {
     public function general(){
         // @todo 获取配置文件，初始化Container；
         $this->targetContainer = new $this->defaultContainerClass();
+    }
+
+    public function setContainer(AbstractSessionStorage $container){
+        if($this->targetContainer)
+            throw new SessionStorageException("Session has initialize on this request!");
+        $this->targetContainer = $container;
     }
 
     public function getContainer(){
